@@ -1,0 +1,25 @@
+name: Deploy Docker App em VM Azure
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Conect to VM and deploy app
+        uses: appleboy/ssh-action@v0.1.1
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.KEY }}
+          script: |
+            cd /home/${{ secrets.USERNAME }}/meuapp
+            git pull origin main
+            docker-compose down || true
+            docker-compose up -d --build
