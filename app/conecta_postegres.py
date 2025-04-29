@@ -11,7 +11,7 @@ ns = api.namespace('alunos', description='Alunos operations')
 
 def get_connection():
     conn = psycopg2.connect(
-        host="localhost",
+        host="db",
         database="postgres",
         user="postgres",
         password="postgres"
